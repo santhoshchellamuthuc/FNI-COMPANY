@@ -1,4 +1,6 @@
+using FNI_Libray;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +26,9 @@ namespace FNI_COMPANY
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var database = Configuration.GetConnectionString("Dbconnection");
+            services.AddDbContext<FNIDbcontext>(reference => reference.UseSqlServer(database));
+            services.AddTransient<FNIinterface,FNIRepostry>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
